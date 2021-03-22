@@ -22,6 +22,10 @@ public class Upload {
     }
 
     public void setName(String name) {
+        mName = name;
+    }
+
+    public String getmImageUrl() {
         return mImageUrl;
     }
 
