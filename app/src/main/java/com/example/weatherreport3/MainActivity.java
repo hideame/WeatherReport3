@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progress_bar);
 
         final StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance("https://my-test-project-6369f-default-rtdb.firebaseio.com/").getReference("uploads");
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,10 +113,10 @@ public class MainActivity extends AppCompatActivity {
     private void uploadFile() {
         // Create a storage reference from our app
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        mStorageRef = storage.getReference();
+        mStorageRef = storage.getReference("images");
 
         // Create a database reference from our app
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef = FirebaseDatabase.getInstance("https://my-test-project-6369f-default-rtdb.firebaseio.com/").getReference();
 
         if (mImageUri != null) {
             mStorageRef.putFile(mImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
