@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
+    private EditText mEditTextPlace;
+    private EditText mEditTextYourName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
 
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         mButtonUpload = findViewById(R.id.button_upload);
         mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
+        mEditTextPlace = findViewById(R.id.placeEdit);
+        mEditTextYourName = findViewById(R.id.yourNameEdit);
         mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
 
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openImagesActivity();
             }
         });
     }
@@ -113,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     private void uploadFile() {
         // Create a storage reference from our app
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        mStorageRef = storage.getReference("images");
+        mStorageRef = storage.getReference("images").child(mEditTextFileName.getText().toString().trim());
 
         // Create a database reference from our app
         mDatabaseRef = FirebaseDatabase.getInstance("https://my-test-project-6369f-default-rtdb.firebaseio.com/").getReference();
@@ -133,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         Log.e(TAG, "then: " + downloadUri.toString());
-                        Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), downloadUri.toString());
+                        Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), downloadUri.toString(),
+                                mEditTextPlace.getText().toString().trim(), mEditTextYourName.getText().toString().trim());
                         mDatabaseRef.push().setValue(upload);
                     } else {
                         Toast.makeText(MainActivity.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -141,5 +146,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void openImagesActivity() {
+        Intent intent = new Intent(this, ImagesActivity.class);
+        startActivity(intent);
     }
 }
