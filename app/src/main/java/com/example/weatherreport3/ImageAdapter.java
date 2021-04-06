@@ -24,16 +24,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @NonNull
     @Override
-    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder imageViewHolder, int i) {
-        Upload uploadCurrent = mUploads.get(i);
-        imageViewHolder.textViewName.setText(uploadCurrent.getName());
-        Picasso.with(mContext).load(uploadCurrent.getmImageUrl()).fit().centerCrop().into(imageViewHolder.imageView);
+    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        Upload uploadCurrent = mUploads.get(position);
+        holder.textViewName.setText(uploadCurrent.getName());
+        Picasso.with(mContext).load(uploadCurrent.getmImageUrl()).fit().centerInside().into(holder.imageView);
     }
 
     @Override
