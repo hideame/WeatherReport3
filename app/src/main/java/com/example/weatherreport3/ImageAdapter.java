@@ -56,4 +56,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             yourNameEdit = itemView.findViewById(R.id.yourNameEdit);
         }
     }
+
+    public void add(Upload upload) {
+        mUploads.add(upload);
+
+        notifyItemInserted(mUploads.size() - 1);
+    }
 }
